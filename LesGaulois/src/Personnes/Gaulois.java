@@ -1,10 +1,14 @@
+
 package Personnes;
-import village_gaulois.village;
+
+import village_gaulois.Village;
+
 public class Gaulois {
-	private String nom;
+    private String nom;
     private int force;
     private int effetPotion = 1;
-    private village village;
+    private Village village;
+
     public Gaulois(String nom, int force) {
         this.nom = nom;
         this.force = force;
@@ -28,8 +32,10 @@ public class Gaulois {
     }
 
     public void frapper(Romain romain) {
-        System.out.println(nom + " envoie un grand coup dans la mâchoire de " + romain.getNom());
+        System.out.println(nom + " envoie un grand coup dans la mâchoire de "
+                + romain.getNom());
         romain.recevoirCoup((force * effetPotion) / 3);
+
         if (effetPotion > 1) {
             effetPotion--;
         }
@@ -39,26 +45,28 @@ public class Gaulois {
         this.effetPotion = forcePotion;
     }
 
+    public void setVillage(Village village) {
+        this.village = village;
+    }
+
+    public void sePresenter() {
+        if (village == null) {
+            parler("Bonjour, je m'appelle " + nom
+                    + ". Je voyage de villages en villages.");
+        } else if (village.getChef() == this) {
+            parler("Bonjour, je m'appelle " + nom
+                    + ". Je suis le chef du village : "
+                    + village.getNom() + ".");
+        } else {
+            parler("Bonjour, je m'appelle " + nom
+                    + ". J'habite le village : "
+                    + village.getNom() + ".");
+        }
+    }
+
     public static void main(String[] args) {
         Gaulois asterix = new Gaulois("Astérix", 8);
         System.out.println(asterix);
+        asterix.sePresenter();
     }
-    
-    public void setVillage(village village) {
-        this.village = village;
-    }
-    
-    public void sePresenter() {
-        String chaine = "Le Gaulois " + nom + " : \"Bonjour, je m'appelle " + nom + ". ";
-        if (village != null) {
-            if (this == village.getChef()) {
-                chaine += "Je suis le chef du village " + village.getNom() + ".";
-            } else {
-                chaine += "J'habite le village " + village.getNom() + ".";
-            }
-        } else {
-            chaine += "Je voyage de villages en villages.";
-        }
-        chaine += "\"";
-        System.out.println(chaine);
-}}
+}
